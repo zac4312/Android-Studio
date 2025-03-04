@@ -1,3 +1,15 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+# Ignore Android build files
+*.iml
+.gradle/
+local.properties
+/.idea/
+.DS_Store
+/build/
+app/build/
+captures/
+.externalNativeBuild/
+
+# Ignore log and temporary files
+*.log
+*.swp
+*.s
