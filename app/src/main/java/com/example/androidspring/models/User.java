@@ -38,7 +38,7 @@ public class User {
     }
 
     public void setId(Long id) { // ✅ Add this setter
-        this.Id = Id;
+        this.Id = id;
     }
 
 

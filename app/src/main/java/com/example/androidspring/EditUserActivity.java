@@ -2,6 +2,7 @@ package com.example.androidspring;
 
 import  android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,9 +45,20 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     private void updateUser() {
-        String updatedName = editTextName.getText().toString().trim();
-        int updatedAge = Integer.parseInt(editTextAge.getText().toString().trim());
+        if (userId == null) {
+            Toast.makeText(this, "User ID is missing!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        String updatedName = editTextName.getText().toString().trim();
+        String ageText = editTextAge.getText().toString().trim();
+
+        if (updatedName.isEmpty() || ageText.isEmpty()) {
+            Toast.makeText(this, "Please enter valid name and age", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int updatedAge = Integer.parseInt(ageText);
         User updatedUser = new User(updatedName, updatedAge);
 
         RetrofitClient.getApiService().updateUser(userId, updatedUser).enqueue(new Callback<User>() {
@@ -62,8 +74,10 @@ public class EditUserActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Log.e("EditUserActivity", "Error updating user", t);
                 Toast.makeText(EditUserActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }

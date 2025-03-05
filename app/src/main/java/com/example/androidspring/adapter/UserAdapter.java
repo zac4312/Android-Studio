@@ -2,6 +2,7 @@ package com.example.androidspring.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     private void deleteUser(Long userId, int position) {
+        if (userId == null) {
+            Toast.makeText(context, "User ID is null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         RetrofitClient.getApiService().deleteUser(userId).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -77,6 +83,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("UserAdapter", "Error deleting user", t);
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
